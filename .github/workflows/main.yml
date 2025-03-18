@@ -1,0 +1,33 @@
+name: CI - SQLite3, Tkinter, QRCode, OpenCV
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Se ejecuta en un entorno Linux
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Puedes cambiar a la versión que necesites
+
+      - name: Instalar dependencias
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk  # Necesario para Tkinter en Linux
+          pip install sqlite3  # SQLite ya viene con Python, no necesita instalación
+          pip install opencv-python qrcode[pil]
+
+      - name: Ejecutar prueba de SQLite3, Tkinter, QR y OpenCV
+        run: python test_script.py  # Un script para probar que todo funciona correctamente
+        
